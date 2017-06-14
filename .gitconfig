@@ -1,0 +1,11 @@
+[user]
+	name = Ryan Hild
+	email = rhild@starbucks.com
+[commit]
+	gpgsign = true
+[push]
+	default = simple
+[core]
+	editor = /usr/bin/vim
+[alias]
+	lol = log --graph --all --decorate --oneline

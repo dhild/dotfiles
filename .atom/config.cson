@@ -1,0 +1,28 @@
+"*":
+  "atom-beautify":
+    general:
+      _analyticsUserId: "190159f5-ccd1-45fb-a28e-c17a79cd320b"
+  core:
+    customFileTypes:
+      "source.yaml": [
+        ".yaml.tmpl"
+        ".yml.tmpl"
+        ".tmpl"
+      ]
+    telemetryConsent: "limited"
+  editor:
+    invisibles: {}
+    showIndentGuide: true
+    showInvisibles: true
+  "exception-reporting":
+    userId: "6b84720c-fbe8-497b-90d2-7acb58f55f9c"
+  "force-tab":
+    honorSoftTabs: false
+  "linter-ui-default":
+    panelHeight: 69
+  minimap:
+    plugins:
+      linter: true
+      linterDecorationsZIndex: 0
+  welcome:
+    showOnStartup: false
