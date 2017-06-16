@@ -22,7 +22,13 @@
     panelHeight: 69
   minimap:
     plugins:
+      "git-diff": true
+      "git-diffDecorationsZIndex": 0
+      "highlight-selected": true
+      "highlight-selectedDecorationsZIndex": 0
       linter: true
       linterDecorationsZIndex: 0
+      selection: true
+      selectionDecorationsZIndex: 0
   welcome:
     showOnStartup: false

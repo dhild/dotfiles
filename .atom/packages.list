@@ -3,6 +3,7 @@ busy-signal@1.4.3
 editorconfig@2.2.2
 force-tab@0.2.2
 formatter@2.12.4
+highlight-selected@0.13.1
 intentions@1.1.2
 language-docker@1.1.8
 language-systemd@0.1.1
@@ -14,5 +15,8 @@ linter-govet@0.1.5
 linter-terraform-syntax@1.2.0
 linter-ui-default@1.6.1
 minimap@4.28.2
+minimap-git-diff@4.3.1
+minimap-highlight-selected@4.6.1
 minimap-linter@2.0.0
+minimap-selection@4.4.0
 

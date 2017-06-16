@@ -1,7 +1,8 @@
-/.apm/
-/.node-gyp/
-/blob-store/
-/compile-cache/
-/packages/
-/storage/
-
+*
+!.gitignore
+!config.cson
+!init.coffee
+!keymap.cson
+!packages.list
+!snippets.cson
+!styles.less
