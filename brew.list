@@ -1,5 +1,6 @@
 awscli
 gdbm
+go
 hadolint
 jq
 kubernetes-cli
