@@ -1,19 +1,59 @@
-#!/bin/sh
-set -euf -o pipefail
+#!/bin/bash
+set -eufx -o pipefail
 
-mkdir -p ~/.vim/bundle
-git clone git@github.com:VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-for i in .atom .gitconfig .vimrc .zshrc bin; do
-  ln -s ~/dotfiles/$i ~/$i
+# Warn user this script will overwrite current dotfiles
+while true; do
+  read -p "Warning: this will overwrite your current dotfiles. Continue? [y/n] " yn
+  case $yn in
+    [Yy]* ) break;;
+    [Nn]* ) exit;;
+    * ) echo "Please answer yes or no.";;
+  esac
 done
 
-apm install --packages-file ~/.atom/packages.list
+dotfiles_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+backup_dir=~/dotfiles_old
 
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+echo -n "Creating ${backup_dir} for backup of any existing dotfiles in ~..."
+mkdir -p "${backup_dir}"
+echo "done"
 
-for i in $(cat brew.list); do
-  brew install $i
+# Change to the dotfiles directory
+echo -n "Changing to the ${dotfiles_dir} directory..."
+cd "${dotfiles_dir}"
+echo "done"
+
+dotfiles_to_symlink=(
+  'atom'
+
+  'shell/vimrc'
+  'shell/zshrc'
+
+  'git/gitattributes'
+  'git/gitconfig'
+)
+
+echo -n "Moving any existing dotfiles from ~ to ${backup_dir}..."
+for i in "${dotfiles_to_symlink[@]}"; do
+  dest="~/.${i##*/}"
+  if [[ -e "${dest}" ]] && [[ ! -h "${dest}" ]]; then
+    mv "${dest}" "${backup_dir}/"
+  fi
 done
+echo "done"
+
+echo -n "Installing dotfiles..."
+for i in "${dotfiles_to_symlink[@]}"; do
+  dest="~/.${i##*/}"
+  if [[ ! -e "${dest}" ]]; then
+    ln -s "${dotfiles_dir}/${i}" "${dest}"
+  fi
+done
+echo "done"
+
+# Each script sets up any necessary packages, and skips if not applicable:
+"${dotfiles_dir}/install/apt.sh"
+"${dotfiles_dir}/install/atom.sh"
+"${dotfiles_dir}/install/brew.sh"
+"${dotfiles_dir}/install/oh-my-zsh.sh"
+"${dotfiles_dir}/install/vundle.sh"
