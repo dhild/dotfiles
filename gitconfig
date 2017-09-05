@@ -1,0 +1,28 @@
+[push]
+	default = simple
+
+[fetch]
+	prune = true
+
+[core]
+	editor = /usr/bin/vim
+	autocrlf = input
+	mergeoptions = --no-edit
+
+[alias]
+	lol = log --graph --all --decorate --oneline
+
+# Rewrites of repo paths
+[url "git@github.com:"]
+	insteadOf = "gh:"
+	insteadOf = "git://github.com"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
+	pushInsteadOf = "https://github.com/"
+
+[url "git://github.com/"]
+	insteadOf = "github:"
+
+# Use separate file for username / github token / etc
+[include]
+	path = ~/.gitconfig.local

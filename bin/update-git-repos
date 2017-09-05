@@ -4,7 +4,7 @@ set -eu
 base_dir="${1:-$(pwd)}"
 base_dir="$(cd "${base_dir}" && pwd)"
 
-for g in $(find "${base_dir}" -type d | grep -e '.*/\.git$'); do
+for g in $(find "${base_dir}" -type d -depth 2 | grep -e '.*/\.git$'); do
   d="$(dirname "${g}")"
   if [[ $(echo "${d}" | grep -q '/\.terraform/') ]]; then
     continue
@@ -13,7 +13,7 @@ for g in $(find "${base_dir}" -type d | grep -e '.*/\.git$'); do
     continue
   fi
   echo "Fetching ${d}"
-  git -C "${d}" fetch
+  git -C "${d}" fetch --prune
 
   # Go ahead and update to latest if we're clean
   if [[ "$(git -C "${d}" status --porcelain | wc -l)" -eq 0 ]]; then
