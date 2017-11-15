@@ -12,10 +12,19 @@
 [alias]
 	lol = log --graph --all --decorate --oneline
 
+	# List diffs with commit messages
+	ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+
+	# List all aliases
+	la = "!git config -l | grep alias | cut -c 7-"
+
+	cfs = "!git clone git@github.com:scpprd/$1"
+	
 # Rewrites of repo paths
 [url "git@github.com:"]
 	insteadOf = "gh:"
 	insteadOf = "git://github.com"
+	insteadOf = "https://github.com"
 	pushInsteadOf = "github:"
 	pushInsteadOf = "git://github.com/"
 	pushInsteadOf = "https://github.com/"
