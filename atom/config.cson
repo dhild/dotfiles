@@ -9,6 +9,11 @@
         ".yml.tmpl"
         ".tmpl"
       ]
+    debugLSP: true
+    disabledPackages: [
+      "concourse-vis"
+      "linter"
+    ]
     telemetryConsent: "limited"
   editor:
     invisibles: {}

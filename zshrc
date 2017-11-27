@@ -1,5 +1,8 @@
 export GOPATH=$(go env GOPATH)
 export PATH=$PATH:$(go env GOPATH)/bin:~/bin
+
+export VAULT_ADDR=https://mc1-vault.mc1.int.scpdev.net
+export VAULT_CAPATH=~/.vault-certs
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 

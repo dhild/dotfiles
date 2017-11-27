@@ -1,10 +1,14 @@
 atom-beautify@0.30.6
+atom-ide-ui@0.5.4
 busy-signal@1.4.3
+concourse-pipeline-yaml@0.0.9
+concourse-vis@1.4.0
 editorconfig@2.2.2
 force-tab@0.2.4
 formatter@2.12.4
 highlight-selected@0.13.1
 intentions@1.1.5
+language-ansi@1.1.1
 language-docker@1.1.8
 language-systemd@0.1.1
 language-terraform@0.8.1
