@@ -1,8 +1,6 @@
 export GOPATH=$(go env GOPATH)
 export PATH=$PATH:$(go env GOPATH)/bin:~/bin
 
-export SECRETS_GPG_COMMAND=gpg2
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -16,8 +14,8 @@ export ZSH=~/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
-#ZSH_THEME="rkj-repos"
-ZSH_THEME="agnoster"
+ZSH_THEME="rkj-repos"
+#ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -82,6 +80,15 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
+# Enable proper `git secrets` support:
+export SECRETS_GPG_COMMAND=gpg2
+
+# Use the github CLI:
+alias git=hub
+
+# Set the preferred editor:
+export EDITOR="vim"
+
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
@@ -104,11 +111,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-alias git=hub
-
+# Ensure the GPG agent is started, and setup the SSH agent env vars for it:
 gpg-connect-agent /bye
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
+# Enable minikube completion:
 mk=$(minikube completion zsh)
 if [[ ! $? ]]; then
 	eval ${mk}
