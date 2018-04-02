@@ -7,6 +7,7 @@ export SECRETS_GPG_COMMAND=gpg2
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 fpath=(/usr/local/share/zsh-completions $fpath)
+fpath=(~/.zsh/completions $fpath)
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -15,7 +16,8 @@ export ZSH=~/.oh-my-zsh
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
-ZSH_THEME="rkj-repos"
+#ZSH_THEME="rkj-repos"
+ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -59,7 +61,17 @@ ZSH_THEME="rkj-repos"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git kubectl docker aws golang history vault)
+plugins=(
+aws
+docker
+gitfast
+git-extras
+golang
+history
+kubectl
+vagrant
+vault
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -96,3 +108,9 @@ alias git=hub
 
 gpg-connect-agent /bye
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+
+mk=$(minikube completion zsh)
+if [[ ! $? ]]; then
+	eval ${mk}
+fi
+
