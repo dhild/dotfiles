@@ -2,6 +2,8 @@
   "atom-beautify":
     general:
       _analyticsUserId: "190159f5-ccd1-45fb-a28e-c17a79cd320b"
+  "atom-ide-ui":
+    use: {}
   core:
     customFileTypes:
       "source.yaml": [
@@ -11,11 +13,11 @@
       ]
     debugLSP: true
     disabledPackages: [
-      "concourse-vis"
       "linter"
     ]
     telemetryConsent: "limited"
   editor:
+    fontSize: 13
     invisibles: {}
     showIndentGuide: true
     showInvisibles: true
