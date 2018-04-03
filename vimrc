@@ -13,6 +13,7 @@ map k gk
 " VIM options:
 set autoindent              " Carry over indenting from previous line
 set autoread                " Don't bother me hen a file changes
+set autowrite               " Always write modified files - I'm just used to this
 set backspace=indent,eol,start
                             " Allow backspace beyond insertion point
 set cindent                 " Automatic program indenting
@@ -118,6 +119,11 @@ Plugin 'itchyny/lightline.vim'
 Plugin 'sheerun/vim-polyglot'
 " Generally includes syntax highlighting, indentation settings
 
+" NERDTree - File browser
+Plugin 'scrooloose/nerdtree'
+
+" Git status flags for NERDTree:
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
