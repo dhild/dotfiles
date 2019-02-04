@@ -1,11 +1,12 @@
-export GOPATH=$(go env GOPATH)
-export PATH=$PATH:$(go env GOPATH)/bin:~/bin
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-fpath=(/usr/local/share/zsh-completions $fpath)
-fpath=(~/.zsh/completions $fpath)
+case $(uname) in
+	Darwin)
+		fpath=(/usr/local/share/zsh-completions $fpath)
+		fpath=(~/.zsh/completions $fpath)
+	;;
+esac
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -81,8 +82,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Enable proper `git secrets` support:
-export SECRETS_GPG_COMMAND=gpg2
-
+case $(uname) in
+	Darwin)
+		export SECRETS_GPG_COMMAND=gpg2
+	;;
+esac
 # Use the github CLI:
 alias git=hub
 
@@ -112,12 +116,15 @@ export EDITOR="vim"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Ensure the GPG agent is started, and setup the SSH agent env vars for it:
+export GPG_TTY=$(tty)
 gpg-connect-agent /bye
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 # Enable minikube completion:
-mk=$(minikube completion zsh)
-if [[ ! $? ]]; then
-	eval ${mk}
+if type minikube > /dev/null; then
+	mk=$(minikube completion zsh)
+	if [[ ! $? ]]; then
+		eval ${mk}
+	fi
 fi
 
