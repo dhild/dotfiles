@@ -1,6 +1,8 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+export PATH="$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:$PATH"
+
 case $(uname) in
 	Darwin)
 		fpath=(/usr/local/share/zsh-completions $fpath)
@@ -117,7 +119,7 @@ export EDITOR="vim"
 
 # Ensure the GPG agent is started, and setup the SSH agent env vars for it:
 export GPG_TTY=$(tty)
-gpg-connect-agent /bye
+gpg-connect-agent updatestartuptty /bye > /dev/null
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 # Enable minikube completion:
