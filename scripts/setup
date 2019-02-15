@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+repo_root="$(cd $(dirname ${BASH_SOURCE[0]})/.. && pwd)"
+
+install_config() {
+  source="${repo_root}/${1}"
+  target="${HOME}/.${1}"
+  [ -e ${target} ] || ln -s ${source} ${target}
+}
+
+#######################################
+#
+# git
+#
+#######################################
+
+install_config gitattributes
+install_config gitconfig
+
+#######################################
+#
+# zsh
+#
+#######################################
+
+[ -e ${HOME}/.oh-my-zsh ] ||
+git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git "$ZSH"
+
+install_config zshrc
+
+[ "$(basename ${SHELL})" != "zsh" ] || chsh -s $(which zsh)
+
+#######################################
+#
+# VIM
+#
+#######################################
+
+install_config vimrc
+install_config vim
+
+#######################################
+#
+# tmux
+#
+#######################################
+
+install_config tmux.conf
+
+#######################################
+#
+# gpg
+#
+#######################################
+
+[ -d ${HOME}/.gnupg ] || mkdir ${HOME}/.gnupg
+
+[ -e ${HOME}/.gnupg/gpg.conf ] || cp ${repo_root}/gnupg/gpg.conf ${HOME}/.gnupg/gpg.conf
+
+if [ "$(uname -s)" == "Darwin" ]
+then
+  touch ${HOME}/.gnupg/gpg-agent.conf
+  grep -q '^pinentry-program' ${HOME}/.gnupg/gpg-agent.conf ||
+   echo "pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pinentry-mac" >> ${HOME}/.gnupg/gpg-agent.conf
+fi

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+repo_root="$(cd $(dirname ${BASH_SOURCE[0]})/.. && pwd)"
+
+cd ${repo_root}
+git submodule update --recursive
+
+if [ "$(uname -s)" == "Darwin" ]
+then
+  brew install \
+    hub go jq \
+    kubernetes-cli awscli \
+    vault packer tfenv \
+    gpg2 tmux vim \
+    ansible
+fi
+
+[ -e ${HOME}/.oh-my-zsh ] ||
+git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git "$ZSH"
+
+[ "$(basename ${SHELL})" == "zsh" ] || chsh -s $(which zsh)
