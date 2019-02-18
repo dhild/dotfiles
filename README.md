@@ -1,15 +1,9 @@
 # Ryan Hild's Dotfiles
 
-## Setup Tasks
+## Setup
 
 ```
-git clone git@github.com:VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-
-# Initially, I did this:
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-apm install --packages-file ~/.atom/packages.list
-
-# Set up the rest of the files by hand....
+curl -SsL https://raw.githubusercontent.com/MikeMcQuaid/strap/master/bin/strap.sh > strap.sh
 ```
 
+Edit the `strap.sh` file, setting the env vars requested, then run it.
