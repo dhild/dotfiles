@@ -27,9 +27,6 @@ install_config gitconfig
 #
 #######################################
 
-[ -e ${HOME}/.oh-my-zsh ] ||
-git clone --depth=1 https://github.com/robbyrussell/oh-my-zsh.git "$ZSH"
-
 install_config zshrc
 
 [ "$(basename ${SHELL})" != "zsh" ] || chsh -s $(which zsh)
