@@ -119,7 +119,14 @@ export EDITOR="vim"
 
 # Ensure the GPG agent is started, and setup the SSH agent env vars for it:
 export GPG_TTY=$(tty)
-gpg-connect-agent updatestartuptty /bye > /dev/null
+case $(uname) in
+  Darwin)
+    gpg-connect-agent /bye > /dev/null
+    ;;
+  *)
+    gpg-connect-agent updatestartuptty /bye > /dev/null
+    ;;
+esac
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 # Enable minikube completion:
