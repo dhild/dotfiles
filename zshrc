@@ -137,3 +137,9 @@ if type minikube > /dev/null; then
 	fi
 fi
 
+case $(uname) in
+  Darwin)
+    alias netskopeoff='sudo launchctl unload /Library/LaunchDaemons/com.netskope.stagentsvc.plist'
+    alias netskopeon='sudo launchctl load /Library/LaunchDaemons/com.netskope.stagentsvc.plist'
+    ;;
+esac

@@ -1,6 +1,6 @@
 # Ryan Hild's Dotfiles
 
-## Setup
+## Mac Setup
 
 ```
 curl -SsL https://raw.githubusercontent.com/MikeMcQuaid/strap/master/bin/strap.sh > strap.sh
