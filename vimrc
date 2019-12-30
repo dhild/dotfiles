@@ -157,4 +157,3 @@ function! s:MaybeUpdateLightline()
     call lightline#update()
   end
 endfunction
-

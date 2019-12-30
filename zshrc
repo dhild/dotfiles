@@ -1,7 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-export PATH="$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$HOME/go/bin:$PATH"
 
 case $(uname) in
 	Darwin)
@@ -120,14 +120,14 @@ export EDITOR="vim"
 # Ensure the GPG agent is started, and setup the SSH agent env vars for it:
 export GPG_TTY=$(tty)
 case $(uname) in
-  Darwin)
-    gpg-connect-agent /bye > /dev/null
-    ;;
-  *)
-    gpg-connect-agent updatestartuptty /bye > /dev/null
-    ;;
+ Darwin)
+   gpg-connect-agent /bye > /dev/null
+   ;;
+ *)
+   gpg-connect-agent updatestartuptty /bye > /dev/null
+   ;;
 esac
-export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+#export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 # Enable minikube completion:
 if type minikube > /dev/null; then
@@ -137,9 +137,20 @@ if type minikube > /dev/null; then
 	fi
 fi
 
-case $(uname) in
-  Darwin)
-    alias netskopeoff='sudo launchctl unload /Library/LaunchDaemons/com.netskope.stagentsvc.plist'
-    alias netskopeon='sudo launchctl load /Library/LaunchDaemons/com.netskope.stagentsvc.plist'
-    ;;
-esac
+function netskope() {
+  mode=${1}
+  case ${mode} in
+    'on')
+      sudo launchctl bootstrap system /Library/LaunchDaemons/com.netskope.stagentsvc.plist
+      launchctl bootstrap gui/$(id -u) /Library/LaunchAgents/com.netskope.stagentui.plist
+      ;;
+    'off')
+      echo off
+      sudo launchctl bootout system/com.netskope.client.stAgentSvc
+      launchctl bootout gui/$(id -u)/com.netskope.client.stagentui
+      ;;
+    *)
+      echo "USAGE: netskope on|off"
+      ;;
+  esac
+}
