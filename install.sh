@@ -1,19 +1,63 @@
 #!/bin/sh
 set -euf -o pipefail
 
-mkdir -p ~/.vim/bundle
-git clone git@github.com:VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+gen_ssh_key() {
+  KEY_PATH="$HOME/.ssh/id_ed25519"
+  if [ -f "$KEY_PATH" ]; then
+    echo "SSH key already generated, skipping..."
+  else
+    echo "Generating a ssh key, please use default name"
+    ssh-keygen -t ed25519 -a 100
+    echo "Adding ssh key to ssh-agent"
+    ssh-add ~/.ssh/id_ed25519
+    pbcopy < ~/.ssh/id_ed25519.pub
+    echo "Pub key has been copied to the paste buffer. Please paste it into a new SSH key."
+    open https://github.com/settings/keys
+    read  -n 1 -p "Press enter to continue." resp
+  fi
+}
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+xcode_setup() {
+  xcode-select -p 1>/dev/null
+  if [ $? -gt 0 ]; then
+    echo "Installing XCode so that we can use git to clone the dotfiles repo"
+    touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+    PROD=$(softwareupdate -l |
+      grep "\*.*Command Line" |
+      head -n 1 | awk -F"*" '{print $2}' |
+      sed -e 's/^ *//' |
+      tr -d '\n')
+    softwareupdate -i "$PROD" --verbose
+    rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+  fi
+}
 
-for i in .atom .gitconfig .vimrc .zshrc bin; do
-  ln -s ~/dotfiles/$i ~/$i
+setup_dotfiles() {
+  echo "Cloning the dotfiles repository"
+  read -p "Enter github username for dotfiles repo [$(id -un)]: " username
+  username=${username:-$(id -un)}
+  git clone git@github.com:${username}/dotfiles ~/dotfiles
+  cd ~/dotfiles
+
+  git submodule update --init --recursive
+
+  echo "Repository cloned and initialized. Running bootstrap script:"
+  ~/dotfiles/scripts/bootstrap
+  ~/dotfiles/scripts/setup
+}
+
+gen_ssh_key
+xcode_setup
+setup_dotfiles
+
+for i in gitconfig vim vimrc zshrc; do
+  ln -s ~/dotfiles/$i ~/.$i
 done
-
-apm install --packages-file ~/.atom/packages.list
 
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-for i in $(cat brew.list); do
-  brew install $i
-done
+# Install default homebrew stuff:
+
+brew update
+brew vendor-gems
+brew bundle install --file Brewfile

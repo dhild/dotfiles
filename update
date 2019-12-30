@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+repo_root="$(cd $(dirname ${BASH_SOURCE[0]}) && pwd)"
+
+update_homebrew() {
+  if hash brew 2>/dev/null; then
+    echo "Brew already installed, skipping"
+  else
+    echo "Installing Brew..."
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+
+  brew update
+  brew vendor-gems
+  brew bundle install --file Brewfile
+}
+
+install_config() {
+  source="${repo_root}/${1}"
+  target="${HOME}/.${1}"
+  [ -e ${target} ] || ln -s ${source} ${target}
+}
+
+update_configs() {
+  for i in gitattributes gitconfig zshrc vimrc vim tmux.conf
+  do
+    target=~/.${i}
+    if [ ! -e ${target} ]; then
+      echo "Creating link for ${target}"
+      ln -s ${repo_root}/${i} ${target}
+    fi
+  done
+}
+
+update_shell() {
+  if [ $(basename ${SHELL}) != "zsh" ]
+  then
+    chsh -s $(which zsh)
+  fi
+}
+
+update_configs
+update_homebrew
+update_shell

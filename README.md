@@ -3,7 +3,10 @@
 ## Mac Setup
 
 ```
-curl -SsL https://raw.githubusercontent.com/MikeMcQuaid/strap/master/bin/strap.sh > strap.sh
+curl -SsL https://raw.githubusercontent.com/dhild/dotfiles/master/install.sh > install.sh
 ```
 
-Edit the `strap.sh` file, setting the env vars requested, then run it.
+Check the `install.sh` file looks correct, then run it:
+```
+bash install.sh
+```
