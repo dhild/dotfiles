@@ -59,5 +59,4 @@ done
 # Install default homebrew stuff:
 
 brew update
-brew vendor-gems
 brew bundle install --file Brewfile
