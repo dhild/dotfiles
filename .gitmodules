@@ -22,3 +22,6 @@
 [submodule "vim/pack/plugins/start/nerdtree-git-plugin"]
 	path = vim/pack/plugins/start/nerdtree-git-plugin
 	url = https://github.com/Xuyuanp/nerdtree-git-plugin
+[submodule "zsh-custom/kube-ps1"]
+	path = zsh-custom/kube-ps1
+	url = git@github.com:jonmosco/kube-ps1.git
